@@ -4,7 +4,7 @@ We are going to **containerize** our **Go application** and **MongoDB** in two D
 
 You'll also need to ensure that **both containers can communicate with each other**, usually done through **Docker networking** features like user-defined networks or linking
 
-Below is an example Dockerfile for your Go application and additional steps to set up the environment properly
+Below is an example **Dockerfile for your Go application** and additional steps to set up the environment properly
 
 ## 1. Dockerfile for Go Application
 

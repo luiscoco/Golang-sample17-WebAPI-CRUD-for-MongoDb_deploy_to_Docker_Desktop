@@ -76,7 +76,7 @@ Since your MongoDB container is already running, we'll need to ensure our Go app
 
 If our MongoDB container is running with the default settings, it should be accessible via localhost on your host machine, but from another container, we need to use Docker networking
 
-## 5. Create a Docker Network (if you haven't already)
+## 5. Create a Docker Network
 
 ```
 docker network create my-network
@@ -90,7 +90,7 @@ Assuming our MongoDB container is named "mongodb", run:
 docker network connect my-network mongodb
 ```
 
-## 7. Run Your Go Application Container:
+## 7. Run Your Go Application Container
 
 When running our Go application container, we should also attach it to the same network
 
@@ -99,3 +99,25 @@ We'll need to adjust the MongoDB URI in our Go application to use the name of th
 ```
 docker run -d --name my-go-app-instance --network my-network -p 8080:8080 my-go-app
 ```
+
+## 8. Verify your application with Postman
+
+We first create a new book with a **POST** request
+
+http://localhost:8080/books
+
+```json
+{
+    "title": "The Go Programming Language",
+    "author": "Alan A. A. Donovan and Brian W. Kernighan",
+    "isbn": "0134190440"
+}
+```
+
+![image](https://github.com/luiscoco/Golang-sample17-WebAPI-CRUD-for-MongoDb_deploy_to_Docker_Desktop/assets/32194879/c8048b27-e8d1-4dd3-beef-2f51c10d381d)
+
+We verify with a **GET** request the book we created in the previous step
+
+http://localhost:8080/books
+
+![image](https://github.com/luiscoco/Golang-sample17-WebAPI-CRUD-for-MongoDb_deploy_to_Docker_Desktop/assets/32194879/83756fad-adc0-4308-aa57-b246dabe8147)

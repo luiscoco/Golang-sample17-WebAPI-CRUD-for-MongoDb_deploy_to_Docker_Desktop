@@ -1,4 +1,4 @@
-#  Golang: How to deploy WbAPI CRUD for MongoDb to Docker Desktop
+#  Golang: How to deploy WebAPI CRUD for MongoDb to Docker Desktop
 
 We are going to **containerize** our **Go application** and **MongoDB** in two Docker containers running on our local laptop, we'll need to create a **Dockerfile** for our Go application
 
@@ -99,6 +99,12 @@ We'll need to adjust the MongoDB URI in our Go application to use the name of th
 ```
 docker run -d --name my-go-app-instance --network my-network -p 8080:8080 my-go-app
 ```
+
+We see the docker images and container in Docker Desktop
+
+![image](https://github.com/luiscoco/Golang-sample17-WebAPI-CRUD-for-MongoDb_deploy_to_Docker_Desktop/assets/32194879/1628d0c3-df01-48e3-b5f5-5271c07dca7e)
+
+![image](https://github.com/luiscoco/Golang-sample17-WebAPI-CRUD-for-MongoDb_deploy_to_Docker_Desktop/assets/32194879/9fd5db77-6a25-4fcf-a6ef-988243b922ee)
 
 ## 8. Verify your application with Postman
 

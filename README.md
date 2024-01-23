@@ -6,7 +6,30 @@ You'll also need to ensure that **both containers can communicate with each othe
 
 Below is an example **Dockerfile for your Go application** and additional steps to set up the environment properly
 
-## 1. Dockerfile for Go Application
+
+## 1. Pull and run MongoDB docker container
+
+We first pull the mongodb image
+
+```
+docker pull mongo
+```
+
+We run the mongo docker container
+
+```
+docker run --name mongodb -d -p 27017:27017 --restart unless-stopped mongo
+```
+
+![image](https://github.com/luiscoco/Golang-sample16-WebAPI-CRUD-for-MongoDb/assets/32194879/60d27a6f-edbb-4116-90c3-3ac8346fd813)
+
+- Verify the image and container in **Docker Desktop**
+
+![image](https://github.com/luiscoco/Golang-sample16-WebAPI-CRUD-for-MongoDb/assets/32194879/5a959223-0fbe-46d8-be07-6d2136f99807)
+
+![image](https://github.com/luiscoco/Golang-sample16-WebAPI-CRUD-for-MongoDb/assets/32194879/cda014ad-a77c-4fd1-a96b-2ab4770bbf12)
+
+## 2. Dockerfile for Go Application
 
 We create the Dockerfile and we save it in the same directory as our Go application source code
 
@@ -41,41 +64,38 @@ EXPOSE 8080
 CMD ["./server"]
 ```
 
-## 2. Build Go Application Docker Image
+## 3. Build Go Application Docker Image
 
 ```
 docker build -t my-go-app .
 ```
 
-## 3. Network Configuration
+## 4. Network Configuration
 
-Since your MongoDB container is already running, you'll need to ensure your Go application can connect to it. 
+Since your MongoDB container is already running, we'll need to ensure our Go application can connect to it
 
-If your MongoDB container is running with the default settings, it should be accessible via localhost on your host machine, but from another container, you need to use Docker networking.
+If our MongoDB container is running with the default settings, it should be accessible via localhost on your host machine, but from another container, we need to use Docker networking
 
-## 4. Create a Docker Network (if you haven't already)
+## 5. Create a Docker Network (if you haven't already)
 
 ```
 docker network create my-network
 ```
 
-## 5. Connect MongoDB Container to our Network
+## 6. Connect MongoDB Container to our Network
 
-Assuming your MongoDB container is named my-mongo, run:
+Assuming our MongoDB container is named "mongodb", run:
 
 ```
 docker network connect my-network mongodb
 ```
 
-## 6. Run Your Go Application Container:
+## 7. Run Your Go Application Container:
 
-When running your Go application container, you should also attach it to the same network
+When running our Go application container, we should also attach it to the same network
 
-You'll need to adjust the MongoDB URI in your Go application to use the name of the MongoDB container as the hostname, e.g., mongodb://mongodb:2701
+We'll need to adjust the MongoDB URI in our Go application to use the name of the MongoDB container as the hostname, e.g., mongodb://mongodb:2701
 
 ```
 docker run -d --name my-go-app-instance --network my-network -p 8080:8080 my-go-app
 ```
-
-
-This setup uses Docker's default bridge network to facilitate communication between the two containers using the container names as hostnames for inter-container communication. Ensure your application's MongoDB URI reflects this network configuration.

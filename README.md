@@ -94,7 +94,26 @@ docker network connect my-network mongodb
 
 When running our Go application container, we should also attach it to the same network
 
-We'll need to adjust the MongoDB URI in our Go application to use the name of the MongoDB container as the hostname, e.g., mongodb://mongodb:2701
+We'll need to adjust the MongoDB URI in our Go application to use the name of the MongoDB container as the hostname, e.g., mongodb://mongodb:27017
+
+**IMPORTANT NOTE**: we have to modify the following line in the **main.go** file to confirm the mongo container hostname
+
+clientOptions := options.Client().ApplyURI("**mongodb://mongodb:27017**")
+
+```
+func connectDB() {
+    // Change the URI to "mongodb://mongodb:27017" to connect to the MongoDB container
+    clientOptions := options.Client().ApplyURI("mongodb://mongodb:27017")
+    client, err := mongo.Connect(context.TODO(), clientOptions)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    collection = client.Database("bookstore").Collection("books")
+}
+```
+
+We also run the following command to execute the Go application docker container
 
 ```
 docker run -d --name my-go-app-instance --network my-network -p 8080:8080 my-go-app
